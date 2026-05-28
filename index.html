@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>History Bytes — A Computer Science History Podcast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f5edd8;
+      --bg2:       #ede0c4;
+      --bg3:       #e4d4b0;
+      --ink:       #1e1408;
+      --sepia:     #6b4c1e;
+      --gold:      #b07a30;
+      --gold-lt:   #c8a96e;
+      --rust:      #9a3e1a;
+      --rust-lt:   #b05a2f;
+      --muted:     #7a6030;
+      --border:    #c8a96e;
+      --border-lt: #ddc898;
+      --card:      #faf4e8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    /* Paper texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,90,40,0.018) 3px, rgba(139,90,40,0.018) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(139,90,40,0.008) 60px, rgba(139,90,40,0.008) 61px);
+    }
+
+    /* ── WOMEN OF CS MARQUEE BANNER ── */
+    .wcs-banner {
+      background: var(--rust);
+      border-bottom: 2px solid #7a2e10;
+      overflow: hidden;
+      padding: 8px 0;
+      position: relative; z-index: 200;
+    }
+    .wcs-banner-inner {
+      display: flex; align-items: center; gap: 0;
+      white-space: nowrap;
+      animation: marquee 32s linear infinite;
+    }
+    .wcs-banner-inner span {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: rgba(255,235,205,0.85);
+      padding: 0 24px;
+    }
+    .wcs-banner-inner .sep {
+      color: rgba(255,200,150,0.4); padding: 0; letter-spacing: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,237,216,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-lt);
+      padding: 0 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      animation: fadeDown 0.5s ease both;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; font-style: italic;
+      color: var(--ink); text-decoration: none; letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--rust); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.5rem 1.3rem;
+      background: var(--rust); color: #faf0e0;
+      text-decoration: none; font-weight: 700;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #7a2e10; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      display: grid; place-items: center;
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* Vintage half-tone dot grid */
+    .hero-dots {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(176,122,48,0.18) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 80%);
+    }
+
+    .hero-inner { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rust); margin-bottom: 2rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-tag::before, .hero-tag::after {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--rust); opacity: 0.4;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 9vw, 7.5rem);
+      font-weight: 900; line-height: 0.92;
+      letter-spacing: -0.02em; color: var(--ink);
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero h1 em {
+      display: block; font-style: italic;
+      color: var(--rust); font-weight: 400;
+    }
+
+    .hero-rule {
+      display: flex; align-items: center; gap: 14px;
+      justify-content: center; margin: 2rem 0;
+      animation: fadeUp 0.7s 0.32s ease both;
+    }
+    .hero-rule::before, .hero-rule::after {
+      content: ''; flex: 1; max-width: 120px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-lt));
+    }
+    .hero-rule::after { background: linear-gradient(90deg, var(--gold-lt), transparent); }
+    .hero-rule-diamond {
+      width: 7px; height: 7px; background: var(--gold);
+      transform: rotate(45deg); opacity: 0.6;
+    }
+
+    .hero-sub {
+      max-width: 520px; margin: 0 auto 2.5rem;
+      font-size: 0.82rem; line-height: 1.85;
+      color: var(--sepia);
+      animation: fadeUp 0.7s 0.38s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.48s ease both;
+    }
+    .btn-primary {
+      padding: 0.85rem 2rem; background: var(--ink); color: var(--bg);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--rust); transform: translateY(-2px); }
+    .btn-secondary {
+      padding: 0.85rem 2rem; background: none;
+      border: 1px solid var(--border); color: var(--sepia);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+
+    /* Waveform */
+    .waveform {
+      display: flex; align-items: center; justify-content: center;
+      gap: 3px; height: 40px; margin-top: 3.5rem;
+      animation: fadeUp 0.7s 0.58s ease both;
+    }
+    .waveform span {
+      display: block; width: 2.5px; background: var(--gold-lt);
+      border-radius: 2px; opacity: 0.55;
+      animation: wave var(--d) ease-in-out infinite alternate;
+      animation-delay: var(--delay);
+    }
+    @keyframes wave {
+      from { height: 3px; }
+      to   { height: var(--h); }
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: var(--bg2);
+      border-top: 1px solid var(--border-lt);
+      border-bottom: 1px solid var(--border-lt);
+      overflow: hidden; padding: 0.65rem 0;
+    }
+    .ticker {
+      display: flex; gap: 3rem;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); flex-shrink: 0;
+    }
+    .ticker-item::before { content: '◆ '; color: var(--rust); margin-right: 0.5rem; font-size: 0.5rem; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTION SHARED ── */
+    .section { padding: 6rem 3rem; max-width: 1160px; margin: 0 auto; }
+
+    .section-eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rust); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-eyebrow::after { content: ''; flex: 1; max-width: 48px; height: 1px; background: var(--rust); opacity: 0.3; }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 900; line-height: 1.05; color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--rust); font-weight: 400; }
+
+    /* ── EPISODES ── */
+    #episodes { background: var(--bg); }
+
+    .episodes-list { margin-top: 3rem; display: flex; flex-direction: column; }
+
+    .episode-card {
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 1.5rem; align-items: center;
+      padding: 1.4rem 1.2rem;
+      border: 1px solid var(--border-lt);
+      border-bottom: none;
+      background: var(--card);
+      cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: background 0.2s;
+    }
+    .episode-card:last-child { border-bottom: 1px solid var(--border-lt); }
+    .episode-card::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--rust);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.25s ease;
+    }
+    .episode-card:hover { background: var(--bg2); }
+    .episode-card:hover::before { transform: scaleY(1); }
+
+    .ep-num {
+      text-align: center;
+      border-right: 1px solid var(--border-lt);
+      padding-right: 1.2rem;
+    }
+    .ep-num strong {
+      display: block; font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 900; color: var(--rust); line-height: 1;
+    }
+    .ep-num span { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+    .ep-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.3rem;
+    }
+    .ep-info p { font-size: 0.7rem; line-height: 1.65; color: var(--sepia); }
+    .ep-tags { display: flex; gap: 0.5rem; margin-top: 0.6rem; flex-wrap: wrap; }
+    .ep-tag {
+      font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.15rem 0.5rem; border: 1px solid var(--border-lt); color: var(--muted);
+    }
+    .ep-tag.women { border-color: var(--rust); color: var(--rust); }
+
+    .ep-meta { text-align: right; }
+    .ep-duration { font-size: 0.68rem; color: var(--muted); margin-bottom: 0.6rem; }
+    .play-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      border: 1px solid var(--gold);
+      background: none; cursor: pointer; margin-left: auto;
+      transition: background 0.2s;
+    }
+    .play-btn:hover { background: var(--gold); }
+    .play-btn:hover svg path { fill: white; }
+    .play-btn svg path { fill: var(--gold); transition: fill 0.2s; }
+
+    @media (max-width: 600px) {
+      .episode-card { grid-template-columns: 48px 1fr; }
+      .ep-meta { display: none; }
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); border-top: 1px solid var(--border-lt); border-bottom: 1px solid var(--border-lt); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .about-visual {
+      position: relative;
+    }
+    .about-img {
+      width: 100%; aspect-ratio: 1;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7rem;
+      position: relative; overflow: hidden;
+    }
+    .about-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,90,40,0.04) 3px, rgba(139,90,40,0.04) 4px);
+    }
+    .about-badge {
+      position: absolute; bottom: -1rem; right: -1rem;
+      background: var(--rust); color: #faf0e0;
+      padding: 0.7rem 1.1rem;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    }
+
+    .about-text p {
+      font-size: 0.8rem; line-height: 1.9; color: var(--sepia); margin-bottom: 1rem;
+    }
+    .stats { display: flex; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
+    .stat { border-left: 2px solid var(--rust); padding-left: 1rem; }
+    .stat strong {
+      display: block; font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 900; color: var(--ink); line-height: 1;
+    }
+    .stat span { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── PLATFORMS ── */
+    #platforms { text-align: center; }
+
+    .platforms-grid {
+      display: flex; gap: 0.75rem; justify-content: center;
+      flex-wrap: wrap; margin-top: 2.5rem;
+    }
+    .platform-pill {
+      padding: 0.65rem 1.4rem;
+      border: 1px solid var(--border-lt);
+      background: var(--card);
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--sepia); text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .platform-pill:hover { border-color: var(--rust); color: var(--rust); background: var(--bg2); }
+
+    /* ── NEWSLETTER ── */
+    #newsletter { background: var(--ink); }
+
+    .newsletter-inner {
+      max-width: 1160px; margin: 0 auto;
+      padding: 5rem 3rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    @media (max-width: 768px) { .newsletter-inner { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.5rem; } }
+
+    .newsletter-inner::before {
+      content: '10110';
+      position: absolute; right: 2rem; top: 50%; transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 10rem; font-weight: 900; color: rgba(200,169,110,0.04);
+      letter-spacing: -0.1em; pointer-events: none;
+    }
+
+    .newsletter-inner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 900; color: var(--bg); line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .newsletter-inner h2 em { font-style: italic; color: var(--gold-lt); }
+    .newsletter-inner p { font-size: 0.75rem; line-height: 1.8; color: rgba(245,237,216,0.45); }
+
+    .email-form { display: flex; }
+    .email-form input {
+      flex: 1; padding: 0.85rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(200,169,110,0.3); border-right: none;
+      color: var(--bg); font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
+      outline: none;
+    }
+    .email-form input::placeholder { color: rgba(245,237,216,0.25); }
+    .email-form input:focus { border-color: var(--gold-lt); }
+    .email-form button {
+      padding: 0.85rem 1.4rem;
+      background: var(--rust); color: #faf0e0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .email-form button:hover { background: #7a2e10; }
+    .form-note { font-size: 0.58rem; color: rgba(245,237,216,0.2); margin-top: 0.6rem; letter-spacing: 0.08em; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0e0904;
+      border-top: 1px solid rgba(200,169,110,0.15);
+      padding: 1.75rem 3rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-style: italic; color: var(--gold-lt);
+    }
+    footer p { font-size: 0.58rem; letter-spacing: 0.12em; color: rgba(200,169,110,0.25); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- WOMEN OF CS MARQUEE -->
+<div class="wcs-banner" aria-label="Women of Computer Science">
+  <div class="wcs-banner-inner" id="wcs-marquee"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">History <span>Bytes</span></a>
+  <ul class="nav-links">
+    <li><a href="#episodes">Episodes</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#platforms">Listen</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+  </ul>
+  <a href="#platforms" class="nav-cta">Subscribe</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Season 3 · Now Live</div>
+    <h1>History<em>Bytes</em></h1>
+    <div class="hero-rule"><div class="hero-rule-diamond"></div></div>
+    <p class="hero-sub">True stories from the digital past. The pioneers, inventors, and visionaries who built the world we compute in. New episodes every Tuesday.</p>
+    <div class="hero-actions">
+      <a href="#episodes" class="btn-primary">Browse Episodes</a>
+      <a href="#about" class="btn-secondary">About the Show</a>
+    </div>
+    <div class="waveform" id="waveform" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap"><div class="ticker" id="ticker"></div></div>
+
+<!-- EPISODES -->
+<div id="episodes">
+  <div class="section reveal">
+    <div class="section-eyebrow">Latest Episodes</div>
+    <h2 class="section-title">From the <em>Archive</em></h2>
+    <div class="episodes-list" id="episodes-list"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about">
+  <div class="section reveal">
+    <div class="about-grid">
+      <div class="about-visual">
+        <div class="about-img">📼</div>
+        <div class="about-badge">Since 2024</div>
+      </div>
+      <div class="about-text">
+        <div class="section-eyebrow">About the Show</div>
+        <h2 class="section-title">Why History <em>Matters</em></h2>
+        <p>Every line of code has a story. Every algorithm has a creator. History Bytes digs into the human drama behind the technology we take for granted — from the first punch cards to the dawn of the internet.</p>
+        <p>Hosted by historians, engineers, and the occasional legend who was actually in the room, we explore the pivotal decisions, fierce rivalries, and unexpected breakthroughs that built the digital world.</p>
+        <p>Especially the ones history almost forgot.</p>
+        <div class="stats">
+          <div class="stat"><strong>3M+</strong><span>Downloads</span></div>
+          <div class="stat"><strong>120+</strong><span>Episodes</span></div>
+          <div class="stat"><strong>80+</strong><span>Guests</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLATFORMS -->
+<div id="platforms">
+  <div class="section reveal" style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center">Listen Everywhere</div>
+    <h2 class="section-title">Find Us On <em>Your</em> Platform</h2>
+    <div class="platforms-grid">
+      <a href="#" class="platform-pill">Spotify</a>
+      <a href="#" class="platform-pill">Apple Podcasts</a>
+      <a href="#" class="platform-pill">YouTube</a>
+      <a href="#" class="platform-pill">Pocket Casts</a>
+      <a href="#" class="platform-pill">Overcast</a>
+      <a href="#" class="platform-pill">Amazon Music</a>
+      <a href="#" class="platform-pill">RSS Feed</a>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div id="newsletter">
+  <div class="newsletter-inner reveal">
+    <div>
+      <h2>Stay in the <em>Loop</em></h2>
+      <p>Episode summaries, show notes, and the occasional byte of CS history trivia — straight to your inbox. No spam. Unsubscribe anytime.</p>
+    </div>
+    <div>
+      <div class="email-form">
+        <input type="email" placeholder="your@email.com" aria-label="Email address"/>
+        <button type="button">Subscribe</button>
+      </div>
+      <p class="form-note">No spam · Unsubscribe anytime · History only</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">History Bytes</div>
+  <p>© 2026 History Bytes Podcast · All rights reserved</p>
+</footer>
+
+<script>
+  // ── WOMEN OF CS MARQUEE ──
+  const wcsNames = [
+    'Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton', 'Katherine Johnson',
+    'Hedy Lamarr', 'Jean Bartik', 'Radia Perlman', 'Barbara Liskov',
+    'Dorothy Vaughan', 'Frances Allen', 'Adele Goldberg', 'Mary Allen Wilkes',
+    'Beatrice Worsley', 'Sister Mary Kenneth Keller', 'Anita Borg', 'Carol Shaw',
+  ];
+  const marquee = document.getElementById('wcs-marquee');
+  const starLabel = document.createElement('span');
+  starLabel.textContent = '★ WOMEN OF CS ★';
+  starLabel.style.cssText = 'font-weight:800;color:rgba(255,220,180,0.5);padding:0 20px 0 0';
+  marquee.appendChild(starLabel);
+  [...wcsNames, ...wcsNames].forEach((n, i) => {
+    const s = document.createElement('span');
+    s.textContent = n;
+    marquee.appendChild(s);
+    if (i < wcsNames.length * 2 - 1) {
+      const sep = document.createElement('span');
+      sep.className = 'sep'; sep.textContent = ' · ';
+      marquee.appendChild(sep);
+    }
+  });
+
+  // ── WAVEFORM ──
+  const wf = document.getElementById('waveform');
+  for (let i = 0; i < 38; i++) {
+    const s = document.createElement('span');
+    const h = Math.random() * 28 + 5;
+    s.style.setProperty('--h', h + 'px');
+    s.style.setProperty('--d', (0.6 + Math.random() * 0.9).toFixed(2) + 's');
+    s.style.setProperty('--delay', (Math.random() * 0.8).toFixed(2) + 's');
+    wf.appendChild(s);
+  }
+
+  // ── TICKER ──
+  const tickerTopics = [
+    'The Birth of Unix', 'Ada Lovelace & the First Algorithm',
+    'The Altair 8800', 'Xerox PARC\'s GUI Revolution',
+    'ARPANET: The First Internet', 'Dennis Ritchie & C',
+    'The Browser Wars', 'Deep Blue vs. Kasparov',
+    'Linus Torvalds & Linux', 'The Dot-Com Boom & Bust',
+    'Grace Hopper & the Compiler', 'The Apollo Guidance Computer',
+  ];
+  const ticker = document.getElementById('ticker');
+  [...tickerTopics, ...tickerTopics].forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'ticker-item'; d.textContent = t;
+    ticker.appendChild(d);
+  });
+
+  // ── EPISODES ──
+  const episodes = [
+    {
+      season: 'S3', num: '08',
+      title: 'The UNIX Wars: System V vs BSD',
+      desc: 'How a licensing dispute in the 1980s nearly split the computing world in two — and shaped the operating systems we use today.',
+      duration: '54 min', tags: ['Operating Systems', '1980s', 'Bell Labs'], women: false
+    },
+    {
+      season: 'S3', num: '07',
+      title: 'Margaret Hamilton & the Moon Landing Software',
+      desc: 'The untold story of how a team of programmers led by a single visionary hand-coded the Apollo 11 guidance computer.',
+      duration: '48 min', tags: ['NASA', 'Women of CS', '1960s'], women: true
+    },
+    {
+      season: 'S3', num: '06',
+      title: 'The Invention of the Mouse',
+      desc: 'Doug Engelbart\'s 1968 "Mother of All Demos" introduced the world to the mouse, hypertext, and collaborative editing — all at once.',
+      duration: '61 min', tags: ['HCI', 'SRI', 'Engelbart'], women: false
+    },
+    {
+      season: 'S3', num: '05',
+      title: 'Grace Hopper & the First Compiler',
+      desc: 'Why a Navy rear admiral convinced a skeptical industry that computers could understand something closer to plain English.',
+      duration: '52 min', tags: ['COBOL', 'Compilers', 'Women of CS'], women: true
+    },
+    {
+      season: 'S3', num: '04',
+      title: 'The Atari 2600 & the Home Console Revolution',
+      desc: 'From arcade floor to living room carpet — how Atari sold the dream of gaming at home, and nearly destroyed it too.',
+      duration: '58 min', tags: ['Gaming', '1970s', 'Hardware'], women: false
+    },
+    {
+      season: 'S3', num: '03',
+      title: 'Hedy Lamarr: Hollywood Star, Wireless Pioneer',
+      desc: 'The actress who co-invented frequency-hopping spread spectrum — the technology behind WiFi, GPS, and Bluetooth.',
+      duration: '46 min', tags: ['Wireless', 'Women of CS', 'WWII'], women: true
+    },
+  ];
+
+  const list = document.getElementById('episodes-list');
+  episodes.forEach(ep => {
+    const card = document.createElement('div');
+    card.className = 'episode-card';
+    card.innerHTML = `
+      <div class="ep-num">
+        <strong>E${ep.num}</strong>
+        <span>${ep.season}</span>
+      </div>
+      <div class="ep-info">
+        <h3>${ep.title}</h3>
+        <p>${ep.desc}</p>
+        <div class="ep-tags">
+          ${ep.tags.map(t => `<span class="ep-tag${t==='Women of CS'?' women':''}">${t}</span>`).join('')}
+        </div>
+      </div>
+      <div class="ep-meta">
+        <div class="ep-duration">${ep.duration}</div>
+        <button class="play-btn" aria-label="Play ${ep.title}">
+          <svg width="12" height="14" viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg>
+        </button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => io.observe(r));
+</script>
+</body>
+</html>
