@@ -462,23 +462,26 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">History <span>Bytes</span></a>
+  
   <ul class="nav-links">
     <li><a href="#episodes">Episodes</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#platforms">Listen</a></li>
-    <li><a href="#newsletter">Newsletter</a></li>
+    <li><a href="#platforms">Pioneer Bios</a></li>
+    <li><a href="#shop">shop</a></li>
+ <!-- <li><a href="#newsletter">Newsletter</a></li>-->
   </ul>
-  <a href="#platforms" class="nav-cta">Subscribe</a>
+  <a href="#platforms" class="nav-cta">Subscribe</a> 
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-dots"></div>
   <div class="hero-inner">
-    <div class="hero-tag">Season 3 · Now Live</div>
+    <div class="hero-tag">Season 1 · Coming Soon</div>
     <h1>History<em>Bytes</em></h1>
     <div class="hero-rule"><div class="hero-rule-diamond"></div></div>
-    <p class="hero-sub">True stories from the digital past. The pioneers, inventors, and visionaries who built the world we compute in. New episodes every Tuesday.</p>
+    <p class="hero-sub">True stories from the digital past. The pioneers, inventors, and visionaries who built the world we compute in.</p>
     <div class="hero-actions">
       <a href="#episodes" class="btn-primary">Browse Episodes</a>
       <a href="#about" class="btn-secondary">About the Show</a>
@@ -505,18 +508,20 @@
     <div class="about-grid">
       <div class="about-visual">
         <div class="about-img">📼</div>
-        <div class="about-badge">Since 2024</div>
+        <div class="about-badge">Since 2026</div>
       </div>
       <div class="about-text">
         <div class="section-eyebrow">About the Show</div>
         <h2 class="section-title">Why History <em>Matters</em></h2>
         <p>Every line of code has a story. Every algorithm has a creator. History Bytes digs into the human drama behind the technology we take for granted — from the first punch cards to the dawn of the internet.</p>
-        <p>Hosted by historians, engineers, and the occasional legend who was actually in the room, we explore the pivotal decisions, fierce rivalries, and unexpected breakthroughs that built the digital world.</p>
+        <p>Hosted by educator Karen Latimer, we explore the pivotal decisions, fierce rivalries, and unexpected breakthroughs that built the digital world.</p>
         <p>Especially the ones history almost forgot.</p>
+
+<!-- Displays stats on the screen -->
         <div class="stats">
-          <div class="stat"><strong>3M+</strong><span>Downloads</span></div>
-          <div class="stat"><strong>120+</strong><span>Episodes</span></div>
-          <div class="stat"><strong>80+</strong><span>Guests</span></div>
+        <!--   <div class="stat"><strong>3M+</strong><span>Downloads</span></div> -->
+        <!-- <div class="stat"><strong>120+</strong><span>Episodes</span></div> -->
+        <!--  <div class="stat"><strong>80+</strong><span>Guests</span></div> -->
         </div>
       </div>
     </div>
@@ -531,10 +536,10 @@
     <div class="platforms-grid">
       <a href="#" class="platform-pill">Spotify</a>
       <a href="#" class="platform-pill">Apple Podcasts</a>
-      <a href="#" class="platform-pill">YouTube</a>
+  <!--     <a href="#" class="platform-pill">YouTube</a>
       <a href="#" class="platform-pill">Pocket Casts</a>
       <a href="#" class="platform-pill">Overcast</a>
-      <a href="#" class="platform-pill">Amazon Music</a>
+      <a href="#" class="platform-pill">Amazon Music</a> -->
       <a href="#" class="platform-pill">RSS Feed</a>
     </div>
   </div>
@@ -566,10 +571,22 @@
 <script>
   // ── WOMEN OF CS MARQUEE ──
   const wcsNames = [
-    'Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton', 'Katherine Johnson',
-    'Hedy Lamarr', 'Jean Bartik', 'Radia Perlman', 'Barbara Liskov',
-    'Dorothy Vaughan', 'Frances Allen', 'Adele Goldberg', 'Mary Allen Wilkes',
-    'Beatrice Worsley', 'Sister Mary Kenneth Keller', 'Anita Borg', 'Carol Shaw',
+    'Ada Lovelace', 
+    'Grace Hopper', 
+    'Margaret Hamilton', 
+    'Katherine Johnson',
+    'Hedy Lamarr', 
+    'Jean Bartik', 
+    'Radia Perlman', 
+    'Barbara Liskov',
+    'Dorothy Vaughan', 
+    'Frances Allen', 
+    'Adele Goldberg',
+    'Mary Allen Wilkes',
+    'Beatrice Worsley', 
+    'Sister Mary Kenneth Keller',
+    'Anita Borg', 
+    'Carol Shaw',
   ];
   const marquee = document.getElementById('wcs-marquee');
   const starLabel = document.createElement('span');
@@ -615,6 +632,9 @@
   });
 
   // ── EPISODES ──
+<!-- contains list and links to previous episodes -->
+<!-- builds an array list of the episodes -->
+
   const episodes = [
     {
       season: 'S3', num: '08',
@@ -676,7 +696,7 @@
           <svg width="12" height="14" viewBox="0 0 12 14"><path d="M0 0l12 7-12 7z"/></svg>
         </button>
       </div>
-    `;
+    `; 
     list.appendChild(card);
   });
 
