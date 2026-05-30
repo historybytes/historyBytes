@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karen Latimer — Host · History Bytes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f5edd8;
+      --bg2:       #ede0c4;
+      --bg3:       #e4d4b0;
+      --ink:       #1e1408;
+      --sepia:     #6b4c1e;
+      --gold:      #b07a30;
+      --gold-lt:   #c8a96e;
+      --rust:      #9a3e1a;
+      --rust-lt:   #b05a2f;
+      --muted:     #7a6030;
+      --border:    #c8a96e;
+      --border-lt: #ddc898;
+      --card:      #faf4e8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    /* Paper texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,90,40,0.018) 3px, rgba(139,90,40,0.018) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(139,90,40,0.008) 60px, rgba(139,90,40,0.008) 61px);
+    }
+
+    /* ── WOMEN OF CS MARQUEE ── */
+    .wcs-banner {
+      background: var(--rust);
+      border-bottom: 2px solid #7a2e10;
+      overflow: hidden; padding: 8px 0;
+      position: relative; z-index: 200;
+    }
+    .wcs-banner-inner {
+      display: flex; align-items: center;
+      white-space: nowrap;
+      animation: marquee 32s linear infinite;
+    }
+    .wcs-banner-inner span {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: rgba(255,235,205,0.85);
+      padding: 0 24px;
+    }
+    .wcs-banner-inner .sep { color: rgba(255,200,150,0.4); padding: 0; letter-spacing: 0; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,237,216,0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-lt);
+      padding: 0 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; font-style: italic;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-logo span { color: var(--rust); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.5rem 1.3rem; background: var(--rust); color: #faf0e0;
+      text-decoration: none; font-weight: 700; transition: background 0.2s;
+    }
+    .nav-cta:hover { background: #7a2e10; }
+    @media (max-width: 640px) {
+      nav { padding: 0 1.25rem; }
+      .nav-links { display: none; }
+    }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      padding: 1rem 3rem;
+      border-bottom: 1px solid var(--border-lt);
+      background: var(--bg2);
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--rust); }
+    .breadcrumb .sep { opacity: 0.4; }
+    .breadcrumb .current { color: var(--rust); }
+    @media (max-width: 640px) { .breadcrumb { padding: 0.75rem 1.25rem; } }
+
+    /* ── BIO HERO ── */
+    .bio-hero {
+      position: relative; z-index: 1;
+      background: var(--ink);
+      overflow: hidden;
+    }
+
+    /* Dot grid bg */
+    .bio-hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(200,169,110,0.12) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+    }
+
+    .bio-hero-inner {
+      max-width: 1160px; margin: 0 auto;
+      padding: 5rem 3rem 4rem;
+      display: grid; grid-template-columns: 280px 1fr;
+      gap: 4rem; align-items: end;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 768px) {
+      .bio-hero-inner { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 1.5rem 2.5rem; }
+    }
+
+    /* Portrait */
+    .bio-portrait {
+      position: relative;
+    }
+    .bio-portrait-img {
+      width: 100%; aspect-ratio: 3/4;
+      background: #2a1e0e;
+      border: 1px solid rgba(200,169,110,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem;
+      position: relative; overflow: hidden;
+    }
+    /* Sepia overlay on portrait */
+    .bio-portrait-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(14,9,4,0.6) 100%);
+      mix-blend-mode: multiply;
+    }
+    /* Replace this emoji/placeholder with an <img> tag when you have a photo */
+    .bio-portrait-img .portrait-placeholder {
+      font-size: 7rem; opacity: 0.5; filter: sepia(1);
+    }
+    .bio-portrait-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(0.4) contrast(1.05) brightness(0.9);
+    }
+
+    .bio-tag {
+      position: absolute; bottom: -1px; left: 0; right: 0;
+      background: var(--rust);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(255,235,205,0.9);
+      text-align: center;
+    }
+
+    /* Hero text */
+    .bio-hero-text { padding-bottom: 0.5rem; }
+
+    .bio-era {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold-lt); opacity: 0.65; margin-bottom: 1.2rem;
+      animation: fadeUp 0.5s 0.1s ease both;
+    }
+    .bio-era::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold-lt); opacity: 0.4; }
+
+    .bio-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 900; line-height: 0.92;
+      letter-spacing: -0.02em; color: var(--bg);
+      margin-bottom: 0.4rem;
+      animation: fadeUp 0.6s 0.18s ease both;
+    }
+    .bio-name em {
+      display: block; font-style: italic;
+      color: var(--gold-lt); font-weight: 400;
+    }
+
+    .bio-years {
+      font-size: 0.72rem; letter-spacing: 0.18em;
+      color: rgba(200,169,110,0.45); margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.25s ease both;
+    }
+
+    .bio-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-style: italic; font-weight: 400;
+      color: rgba(245,237,216,0.55); line-height: 1.5;
+      max-width: 560px; margin-bottom: 2rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    /* Key facts pills */
+    .bio-facts {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      animation: fadeUp 0.6s 0.38s ease both;
+    }
+    .bio-fact {
+      padding: 0.4rem 0.9rem;
+      border: 1px solid rgba(200,169,110,0.25);
+      font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(200,169,110,0.55);
+    }
+    .bio-fact.highlight { border-color: var(--rust); color: rgba(255,200,160,0.7); }
+
+    /* ── RULE ── */
+    .section-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-lt), transparent);
+      margin: 0;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .bio-main {
+      max-width: 1160px; margin: 0 auto;
+      padding: 4rem 3rem;
+      display: grid; grid-template-columns: 1fr 320px;
+      gap: 4rem; align-items: start;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 900px) {
+      .bio-main { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.5rem; }
+    }
+
+    /* ── ARTICLE BODY ── */
+    .bio-article {}
+
+    .bio-section { margin-bottom: 3rem; }
+
+    .bio-section-label {
+      font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rust); margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .bio-section-label::after { content: ''; flex: 1; max-width: 36px; height: 1px; background: var(--rust); opacity: 0.3; }
+
+    .bio-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 1rem; line-height: 1.2;
+    }
+    .bio-section h2 em { font-style: italic; color: var(--rust); }
+
+    .bio-section p {
+      font-size: 0.82rem; line-height: 1.95;
+      color: var(--sepia); margin-bottom: 1rem;
+    }
+    .bio-section p:last-child { margin-bottom: 0; }
+
+    /* Pull quote */
+    .pull-quote {
+      margin: 2rem 0;
+      padding: 1.5rem 1.5rem 1.5rem 2rem;
+      border-left: 3px solid var(--rust);
+      background: var(--bg2);
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-style: italic;
+      color: var(--ink); line-height: 1.6; margin-bottom: 0.5rem !important;
+    }
+    .pull-quote cite {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); font-style: normal;
+    }
+
+    /* Timeline */
+    .timeline { margin: 1.5rem 0; }
+    .timeline-item {
+      display: grid; grid-template-columns: 72px 1fr;
+      gap: 1.2rem; margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: 35px; top: 22px; bottom: -1.2rem;
+      width: 1px; background: var(--border-lt);
+    }
+    .timeline-item:last-child::before { display: none; }
+    .timeline-year {
+      font-size: 0.68rem; font-weight: 700; color: var(--gold);
+      letter-spacing: 0.05em; padding-top: 0.1rem;
+      text-align: right; padding-right: 0.8rem;
+      border-right: 2px solid var(--border-lt);
+      position: relative;
+    }
+    .timeline-year::after {
+      content: '';
+      position: absolute; right: -5px; top: 4px;
+      width: 8px; height: 8px;
+      background: var(--rust); border-radius: 50%;
+    }
+    .timeline-content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .timeline-content p {
+      font-size: 0.72rem; line-height: 1.6; color: var(--sepia);
+      margin-bottom: 0 !important;
+    }
+
+    /* ── SIDEBAR ── */
+    .bio-sidebar { position: sticky; top: 88px; }
+
+    .sidebar-card {
+      background: var(--card);
+      border: 1px solid var(--border-lt);
+      margin-bottom: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .sidebar-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold);
+    }
+    .sidebar-card.rust::before { background: var(--rust); }
+
+    .sidebar-card-header {
+      padding: 0.9rem 1.1rem 0.6rem;
+      border-bottom: 1px solid var(--border-lt);
+      font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .sidebar-card-body { padding: 1rem 1.1rem; }
+
+    /* Fast facts */
+    .fact-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-lt);
+      gap: 1rem;
+    }
+    .fact-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .fact-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); flex-shrink: 0; }
+    .fact-value { font-size: 0.72rem; color: var(--ink); font-weight: 600; text-align: right; }
+
+    /* Related episodes */
+    .related-ep {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border-lt);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .related-ep:last-child { border-bottom: none; padding-bottom: 0; }
+    .related-ep:hover { background: var(--bg2); margin: 0 -1.1rem; padding-left: 1.1rem; padding-right: 1.1rem; }
+    .related-ep-num { font-size: 0.58rem; letter-spacing: 0.1em; color: var(--rust); margin-bottom: 0.2rem; }
+    .related-ep-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem; font-weight: 700; color: var(--ink); line-height: 1.3;
+      margin-bottom: 0.2rem;
+    }
+    .related-ep-dur { font-size: 0.6rem; color: var(--muted); }
+
+    /* Also featured */
+    .also-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .also-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none; padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border-lt);
+      transition: opacity 0.2s;
+    }
+    .also-item:last-child { border-bottom: none; }
+    .also-item:hover { opacity: 0.7; }
+    .also-emoji { font-size: 1.4rem; flex-shrink: 0; }
+    .also-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.82rem; font-weight: 700; color: var(--ink);
+    }
+    .also-contrib { font-size: 0.6rem; color: var(--muted); }
+
+    /* ── RELATED PIONEERS STRIP ── */
+    .related-strip {
+      background: var(--bg2);
+      border-top: 1px solid var(--border-lt);
+      border-bottom: 1px solid var(--border-lt);
+      position: relative; z-index: 1;
+    }
+    .related-strip-inner {
+      max-width: 1160px; margin: 0 auto;
+      padding: 3.5rem 3rem;
+    }
+    .related-strip-label {
+      font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--rust); margin-bottom: 1.5rem;
+    }
+    .related-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    }
+    @media (max-width: 768px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .related-card {
+      background: var(--card); border: 1px solid var(--border-lt);
+      padding: 1.2rem; cursor: pointer; text-decoration: none;
+      display: block;
+      transition: background 0.2s, border-color 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .related-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: var(--gold); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+    .related-card:hover { background: var(--bg2); border-color: var(--border); }
+    .related-card:hover::before { transform: scaleX(1); }
+    .related-card.women::before { background: var(--rust); }
+
+    .rc-emoji { font-size: 2rem; margin-bottom: 0.6rem; display: block; }
+    .rc-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .rc-contrib { font-size: 0.62rem; color: var(--sepia); line-height: 1.4; }
+    .rc-tag {
+      display: inline-block; margin-top: 0.5rem;
+      font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.1rem 0.45rem; border: 1px solid var(--border-lt); color: var(--muted);
+    }
+    .rc-tag.women { border-color: var(--rust); color: var(--rust); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0e0904;
+      border-top: 1px solid rgba(200,169,110,0.15);
+      padding: 1.75rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      position: relative; z-index: 1;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-style: italic; color: var(--gold-lt);
+    }
+    footer p { font-size: 0.58rem; letter-spacing: 0.12em; color: rgba(200,169,110,0.25); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- WOMEN OF CS MARQUEE -->
+<div class="wcs-banner">
+  <div class="wcs-banner-inner" id="wcs-marquee"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">History <span>Bytes</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#episodes">Episodes</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#platforms">Listen</a></li>
+    <li><a href="index.html#newsletter">Newsletter</a></li>
+  </ul>
+  <a href="index.html#platforms" class="nav-cta">Subscribe</a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="sep">›</span>
+  <a href="#">About Me</a>
+  <span class="sep">›</span>
+  <span class="current">Karen Latimer</span>
+</div>
+
+<!-- BIO HERO -->
+<div class="bio-hero">
+  <div class="bio-hero-inner">
+
+    <!-- Portrait -->
+    <div class="bio-portrait">
+      <div class="bio-portrait-img">
+        <!--
+          TEMPLATE NOTE:
+          Replace the div below with an <img> tag when you have a photo:
+          <img src="images/ada-lovelace.jpg" alt="Ada Lovelace portrait"/>
+        -->
+        <div class="portrait-placeholder">👩‍💻</div>
+      </div>
+      <div class="bio-tag">★ Women of CS</div>
+    </div>
+
+    <!-- Hero text -->
+    <div class="bio-hero-text">
+    
+      <h1 class="bio-name">Karen<em>Latimer</em></h1>
+    
+      <div class="bio-facts">
+        <div class="bio-fact highlight">Software Developer</div>
+        <div class="bio-fact highlight">CS Educator</div>
+        <div class="bio-fact">Micro:Bit Champion</div>
+        <div class="bio-fact">CodeHS Ceritified Educator</div>
+        <div class="bio-fact">Media Smarts Champion</div>
+        <div class="bio-fact">MEd CTL CS Equity</div>
+      </div>
+
+     <div class = "contact-info">
+  <div class="contact-info highlight">email</div>
+</div>
+      
+    </div>
+
+  </div>
+</div>
+
+<div class="section-rule"></div>
+
+<!-- MAIN CONTENT + SIDEBAR -->
+
+<div class="bio-main">
+ 
+  <!-- ARTICLE -->
+  <article class="bio-article">
+
+    <div class="bio-section reveal">
+      <div class="bio-section-label">About Me</div>
+      <h2><em>Karen</em> Latimer</h2>
+      <p>It started with Ada Lovelace.</p>
+
+    <p>  During her Bachelor of Education, Karen Latimer came across the story of a 19th-century mathematician who wrote what is now recognised as the world's first computer program — more than a century before the computer existed. She was brilliant, she was visionary, and she had been almost entirely left out of the story Karen had been told about computer science.</p>
+
+<p>That discovery sparked a question that has quietly shaped everything Karen has done since: how many more have we missed? </p>
+
+<p>Karen is a high school CS teacher at an independent school in Manitoba, Canada, where she teaches students from Grade 9 through Grade 12. She's also a sessional instructor in a Bachelor of Education program, helping train the next generation of CS teachers. Her research focuses on CS education and algorithmic bias — the places where the technology we build reflects the blind spots of the people who built it. </p>
+
+<p>Over the years, her CS program has grown into something she's proud of: a deliberate, equity-centred curriculum that doesn't just teach students how to code, but asks them to think critically about who codes, who has historically been excluded, and why it matters. Senior students facilitate CS workshops at an under-resourced middle school. The history of the field — its pioneers, its politics, its overlooked contributors — is woven into every course. </p>
+
+<p>History Bytes is the next chapter of that same work, just with a wider audience. Each episode digs into the human story behind a moment in computing history — the decisions, the rivalries, the breakthroughs, and the people who made them. Especially the ones history almost forgot.</p>
+
+<p>Karen hosts the show from Manitoba, where she lives with her family. She is a published researcher, a conference presenter, and someone who still gets genuinely excited every time she finds a name that should have been in the textbook and wasn't.</p>
+
+<p>And that's her story.</p>
+
+      
+
+     
+    </div>
+
+
+
+    <div class="bio-section reveal">
+      
+    
+    </div>
+
+  </article>
+
+  <!-- SIDEBAR -->
+  <aside class="bio-sidebar"> 
+
+    <!-- Fast facts -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-header">Fast Facts</div>
+      <div class="sidebar-card-body" id="fast-facts"></div>
+    </div> 
+
+ 
+
+    <!-- Also explore -->
+    <div class="sidebar-card reveal">
+      <div class="sidebar-card-header">Also Explore</div>
+      <div class="sidebar-card-body">
+        <div class="also-list" id="also-list"></div>
+      </div>
+    </div>
+
+   <!-- contact & follow -->
+   <div class = "sidebar-card reveal">
+      <div class="sidebar-card-header">Contact</div>
+         <div class="sidebar-card-body">
+	<div class="contact-info" id="contact-info"></div>
+     </div>
+    </div>
+  </aside>
+</div>
+
+<!-- RELATED PIONEERS -->
+<div class="related-strip reveal">
+  <div class="related-strip-inner">
+    <div class="related-strip-label">More Pioneers</div>
+    <div class="related-grid" id="related-grid"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">History Bytes</div>
+  <p>© 2026 History Bytes Podcast · All rights reserved</p>
+</footer>
+
+<script>
+  // ── WOMEN OF CS MARQUEE ──
+  const wcsNames = [
+    'Ada Lovelace','Grace Hopper','Margaret Hamilton','Katherine Johnson',
+    'Hedy Lamarr','Jean Bartik','Radia Perlman','Barbara Liskov',
+    'Dorothy Vaughan','Frances Allen','Adele Goldberg','Beatrice Worsley',
+  ];
+  const marquee = document.getElementById('wcs-marquee');
+  [...wcsNames, ...wcsNames].forEach((n, i) => {
+    const s = document.createElement('span'); s.textContent = n;
+    marquee.appendChild(s);
+    const sep = document.createElement('span'); sep.className = 'sep'; sep.textContent = ' · ';
+    marquee.appendChild(sep);
+  });
+
+
+
+  // ── FAST FACTS ──
+  const facts = [
+
+    { label: 'Nationality', value: 'Canadian' },
+    { label: 'Field', value: 'CS Education' },
+    { label: 'Known For', value: 'CS Equity' },
+   { label: 'Education', value: 'MEd Curriculum, Teaching & Learning' },
+
+  ];
+  const ff = document.getElementById('fast-facts');
+  facts.forEach(f => {
+    const d = document.createElement('div');
+    d.className = 'fact-row';
+    d.innerHTML = `<span class="fact-label">${f.label}</span><span class="fact-value">${f.value}</span>`;
+    ff.appendChild(d);
+  });
+
+  // ── ALSO EXPLORE ──
+  const alsoData = [
+    { emoji: '⚓', name: 'Grace Hopper', contrib: 'First Compiler · COBOL', women: true },
+    { emoji: '🧩', name: 'Alan Turing', contrib: 'Father of CS · Enigma', women: false },
+    { emoji: '🚀', name: 'Margaret Hamilton', contrib: 'Apollo Software', women: true },
+  ];
+  const al = document.getElementById('also-list');
+  alsoData.forEach(p => {
+    const a = document.createElement('a');
+    a.className = 'also-item'; a.href = '#';
+    a.innerHTML = `
+      <span class="also-emoji">${p.emoji}</span>
+      <div>
+        <div class="also-name">${p.name}</div>
+        <div class="also-contrib">${p.contrib}</div>
+      </div>
+    `;
+    al.appendChild(a);
+  });
+
+  // ── RELATED PIONEERS GRID ──
+  const related = [
+    { emoji: '⚓', name: 'Grace Hopper', contrib: 'Invented the first compiler and co-developed COBOL.', tag: 'Women of CS', women: true },
+    { emoji: '🚀', name: 'Margaret Hamilton', contrib: 'Led NASA\'s Apollo guidance software team.', tag: 'Women of CS', women: true },
+    { emoji: '🧩', name: 'Alan Turing', contrib: 'Conceived the Turing Machine, cracked Enigma.', tag: 'Cryptography', women: false },
+    { emoji: '📡', name: 'Claude Shannon', contrib: 'Founded information theory, introduced the bit.', tag: 'Mathematics', women: false },
+  ];
+  const rg = document.getElementById('related-grid');
+  related.forEach(p => {
+    const a = document.createElement('a');
+    a.className = `related-card${p.women ? ' women' : ''}`; a.href = '#';
+    a.innerHTML = `
+      <span class="rc-emoji">${p.emoji}</span>
+      <div class="rc-name">${p.name}</div>
+      <div class="rc-contrib">${p.contrib}</div>
+      <span class="rc-tag${p.women ? ' women' : ''}">${p.tag}</span>
+    `;
+    rg.appendChild(a);
+  });
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => io.observe(r));
+</script>
+</body>
+</html>
